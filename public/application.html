@@ -73,6 +73,8 @@
             display: flex;
             flex-direction: column;
             overflow-y: auto;
+            flex: 1;
+            margin-bottom: 10px;
         }
         
         .form-title {
@@ -92,7 +94,7 @@
         }
         
         .progress-fill {
-            width: 33.33%;
+            width: 66%;
             height: 100%;
             background: linear-gradient(to right, #4361ee, #7209b7);
         }
@@ -104,6 +106,16 @@
             margin-bottom: 30px;
         }
         
+        .name-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+        
+        .name-group>div {
+            flex: 1;
+        }
+        
         .form-label {
             display: block;
             font-weight: 600;
@@ -112,21 +124,16 @@
             font-size: 15px;
         }
         
-        .form-select,
-        .form-input,
-        .form-textarea {
+        .form-input {
             width: 100%;
             padding: 16px;
             border: 1px solid #ddd;
             border-radius: 12px;
             font-size: 16px;
-            margin-bottom: 24px;
             transition: border 0.3s;
         }
         
-        .form-select:focus,
-        .form-input:focus,
-        .form-textarea:focus {
+        .form-input:focus {
             border-color: #4361ee;
             outline: none;
         }
@@ -135,17 +142,63 @@
             border-color: #e74c3c !important;
         }
         
+        .phone-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 0 16px;
+            margin-bottom: 10px;
+            transition: border 0.3s;
+        }
+        
+        .phone-group.invalid {
+            border-color: #e74c3c !important;
+        }
+        
+        .phone-prefix {
+            color: #666;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        .phone-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 16px 0;
+            font-size: 16px;
+        }
+        
+        .phone-input:focus~.phone-group {
+            border-color: #4361ee;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .prev-btn,
         .next-btn {
-            width: 100%;
+            flex: 1;
             padding: 18px;
-            background: linear-gradient(to right, #e27510, #d3750a);
-            color: white;
             border: none;
             border-radius: 50px;
             font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: auto;
+        }
+        
+        .prev-btn {
+            background: #eee;
+            color: #666;
+        }
+        
+        .next-btn {
+            background: linear-gradient(to right, #c77e12, #cf630a);
+            color: white;
         }
         
         footer {
@@ -153,7 +206,8 @@
             color: #aaa;
             font-size: 13px;
             text-align: center;
-            margin-top: auto;
+            width: 100%;
+            max-width: 480px;
         }
     </style>
 </head>
@@ -164,75 +218,91 @@
         <div class="logo"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLjt7GJwM7u7GcGVvgKYFLd3Rbs5izlnLeBAf_tGdu8Q&s=10" alt="eMola"></div>
         <div></div>
     </header>
+
     <main class="card">
         <h1 class="form-title">Candidatura de Empréstimo</h1>
         <div class="progress-bar">
             <div class="progress-fill"></div>
         </div>
-        <div class="step-text">Etapa 1 de 3</div>
+        <div class="step-text">Etapa 2 de 3</div>
 
-        <label class="form-label">Tipo de Empréstimo</label>
-        <select class="form-select" id="loanType">
-            <option>Empréstimo Pessoal</option>
-            <option>Empréstimo Empresarial</option>
-            <option>Empréstimo Habitação</option>
-            <option>Empréstimo Automóvel</option>
-            <option>Empréstimo Educação</option>
-        </select>
+        <div class="name-group">
+            <div>
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-input" id="firstName" placeholder="João">
+            </div>
+            <div>
+                <label class="form-label">Apelido</label>
+                <input type="text" class="form-input" id="lastName" placeholder="Silva">
+            </div>
+        </div>
 
-        <label class="form-label">Montante do Empréstimo (MZN)</label>
-        <input type="number" class="form-input" id="loanAmount" placeholder="320000" min="5000" max="320000" step="1000">
+        <label class="form-label">Endereço de Email</label>
+        <input type="email" class="form-input" id="email" placeholder="joao.silva@exemplo.co.mz" style="margin-bottom:24px;">
 
-        <label class="form-label">Prazo do Empréstimo</label>
-        <select class="form-select" id="loanTerm">
-            <option>6 Meses</option>
-            <option>12 Meses</option>
-            <option>18 Meses</option>
-            <option>24 Meses</option>
-            <option>36 Meses</option>
-            <option>48 Meses</option>
-            <option>60 Meses</option>
-        </select>
+        <label class="form-label">Número de Telemóvel</label>
+        <div class="phone-group" id="phoneGroup">
+            <span class="phone-prefix">+258</span>
+            <input type="tel" class="phone-input" id="phone" placeholder="841234567">
+        </div>
+        <small style="color:#999; display:block; margin-bottom:30px;">Introduza 9 dígitos (ex.: 841234567)</small>
 
-        <label class="form-label">Finalidade do Empréstimo</label>
-        <textarea class="form-textarea" id="loanPurpose" placeholder="Para que vai utilizar o empréstimo?"></textarea>
-
-        <button class="next-btn" id="nextBtn">PRÓXIMA ETAPA</button>
+        <div class="btn-group">
+            <button class="prev-btn" onclick="history.back()">ANTERIOR</button>
+            <button class="next-btn" id="nextBtn">PRÓXIMA ETAPA</button>
+        </div>
     </main>
+
     <footer>© 2025 eMola</footer>
 
     <script>
-        // Pre-preenchimento
-        if (localStorage.getItem('loanAmount')) document.getElementById('loanAmount').value = localStorage.getItem('loanAmount');
-        if (localStorage.getItem('loanTerm')) document.getElementById('loanTerm').value = localStorage.getItem('loanTerm') + ' Meses';
+        // Pre-preenchimento se o utilizador voltar
+        if (localStorage.getItem('firstName')) document.getElementById('firstName').value = localStorage.getItem('firstName');
+        if (localStorage.getItem('lastName')) document.getElementById('lastName').value = localStorage.getItem('lastName');
+        if (localStorage.getItem('email')) document.getElementById('email').value = localStorage.getItem('email');
+        if (localStorage.getItem('phone')) document.getElementById('phone').value = localStorage.getItem('phone');
 
         document.getElementById('nextBtn').addEventListener('click', function() {
-            const amount = document.getElementById('loanAmount').value.trim();
-            const purpose = document.getElementById('loanPurpose').value.trim();
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            // Repor estilos inválidos
+            document.querySelectorAll('.form-input, #phoneGroup').forEach(el => el.classList.remove('invalid'));
 
             let valid = true;
-            document.querySelectorAll('.form-input, .form-textarea').forEach(el => el.classList.remove('invalid'));
 
-            if (!amount || amount < 5000) {
-                document.getElementById('loanAmount').classList.add('invalid');
+            if (!firstName) {
+                document.getElementById('firstName').classList.add('invalid');
                 valid = false;
             }
-            if (!purpose) {
-                document.getElementById('loanPurpose').classList.add('invalid');
+            if (!lastName) {
+                document.getElementById('lastName').classList.add('invalid');
+                valid = false;
+            }
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                document.getElementById('email').classList.add('invalid');
+                valid = false;
+            }
+            if (!phone || phone.length !== 9 || !/^\d+$/.test(phone)) {
+                document.getElementById('phoneGroup').classList.add('invalid');
                 valid = false;
             }
 
             if (!valid) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
+                alert('Por favor, preencha todos os campos corretamente.\n• O email deve ser válido\n• O telemóvel deve ter exatamente 9 dígitos');
                 return;
             }
 
-            localStorage.setItem('loanType', document.getElementById('loanType').value);
-            localStorage.setItem('loanAmount', amount);
-            localStorage.setItem('loanTerm', document.getElementById('loanTerm').value.replace(' Meses', ''));
-            localStorage.setItem('loanPurpose', purpose || 'Não especificado');
+            // Guardar no localStorage
+            localStorage.setItem('firstName', firstName);
+            localStorage.setItem('lastName', lastName);
+            localStorage.setItem('email', email);
+            localStorage.setItem('phone', phone);
 
-            window.location.href = 'details.html';
+            // Ir para o resumo (URL limpo)
+            window.location.href = 'summary.html';
         });
     </script>
 </body>
